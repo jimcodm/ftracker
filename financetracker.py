@@ -14,33 +14,26 @@ class FinanceTracker:
         self.load_data()  # Load existing data when initializing
         
     def load_data(self):
-            """Loads transactions and loans from a text file."""
-            try:
-                with open(self.filename, "r") as file:
-                    for line in file:
-                        data = line.strip().split(",")
-                        if len(data) < 5:  # Check for the minimum number of elements
-                            print(f"Skipping invalid line: {line.strip()}")
-                            continue
-                        
-                        if data[0] == "IN":
-                            self.money_in_transactions.append(MoneyIn(data[1], float(data[2]), data[3], data[4]))
-                        elif data[0] == "OUT":
-                            self.money_out_transactions.append(MoneyOut(data[1], float(data[2]), data[3], data[4]))
-                        elif data[0] == "LOAN":
-                            # Load loans with the total repaid amount
-                            loan = Loan(data[1], float(data[2]), data[3], data[4], data[5])
-                            # Optionally, you could load repayments if needed
-                            total_repaid = float(data[6])
-                            for _ in range(total_repaid):  # Simulating loading repayments
-                                # Adjust this part based on how you want to store repayments
-                                # Here, you would typically load repayment details if they're saved
-                                pass
-                            self.loans.append(loan)
-            except FileNotFoundError:
-                print("No existing data found.")
-            except ValueError as e:
-                print(f"Error loading data: {e}")
+        """Loads transactions and loans from a text file."""
+        try:
+            with open(self.filename, "r") as file:
+                for line in file:
+                    data = line.strip().split(",")
+                    
+                    if data[0] == "IN":
+                        self.money_in_transactions.append(MoneyIn(data[1], float(data[2]), data[3], data[4]))
+                    elif data[0] == "OUT":
+                        self.money_out_transactions.append(MoneyOut(data[1], float(data[2]), data[3], data[4]))
+                    elif data[0] == "LOAN":
+                        loan = Loan(data[1], float(data[2]), data[3], data[4], data[5])
+                        total_repaid = float(data[6])
+                        loan.repayments.append({"amount": total_repaid, "date": "Loaded"})  # Simulate repayment loading
+                        self.loans.append(loan)
+        except FileNotFoundError:
+            print("No existing data found.")
+        except ValueError as e:
+            print(f"Error loading data: {e}")
+
 
     def add_transaction(self):
         """Adds a new transaction (delegates to specific MoneyIn or MoneyOut methods)."""
