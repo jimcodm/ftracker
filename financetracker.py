@@ -152,3 +152,30 @@ class FinanceTracker:
         self.money_out_transactions = []
         self.loans = []
         print("All data has been cleared.")
+
+    def view_summary(self):
+        """Displays a summary of transactions and loans."""
+        print("\n--- Financial Summary ---")
+
+        # Current Balance
+        balance = self.get_balance()
+        print(f"Current Balance: ₱{balance:.2f}")
+
+        # Total Money In
+        total_in = sum(transaction.amount for transaction in self.money_in_transactions)
+        print(f"Total Income: ₱{total_in:.2f}")
+
+        # Total Money Out
+        total_out = sum(transaction.amount for transaction in self.money_out_transactions)
+        print(f"Total Expenses: ₱{total_out:.2f}")
+
+        # Loans
+        total_loans = sum(loan.amount for loan in self.loans)
+        total_repaid = sum(loan.total_repaid() for loan in self.loans)
+        total_outstanding = sum(loan.outstanding_balance() for loan in self.loans)
+
+        print(f"Total Loans Taken: ₱{total_loans:.2f}")
+        print(f"Total Repaid Loans: ₱{total_repaid:.2f}")
+        print(f"Total Outstanding Loans: ₱{total_outstanding:.2f}")
+
+        print("-------------------------")
