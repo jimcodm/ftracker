@@ -11,7 +11,8 @@ def main():
         print("4. View Loans")
         print("5. Make Repayment")
         print("6. Clear Data")
-        print("7. Exit")
+        print("7. View Summary")
+        print("8. Exit")
 
         choice = input("Enter your choice (1/2/3/4/5/6/7): ")
 
@@ -28,6 +29,8 @@ def main():
         elif choice == '6':
             finance_tracker.clear_data()
         elif choice == '7':
+            finance_tracker.view_summary() 
+        elif choice == '8':
             break
         else:
             print("Invalid choice. Please select a valid option.")
